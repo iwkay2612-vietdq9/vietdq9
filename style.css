@@ -63,6 +63,33 @@ body {
     padding-bottom: 5px;
 }
 
+/* APP VIEW SWITCHING */
+.app-view {
+    display: none;
+}
+
+.app-view.active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#view-excel {
+    overflow-y: auto;
+}
+
 label {
     display: block;
     margin-top: 10px;
