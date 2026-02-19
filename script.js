@@ -25,6 +25,39 @@ const dom = {
 
 // Initialize
 function init() {
+    // LOGIN LOGIC
+    const loginOverlay = document.getElementById('login-overlay');
+    const passwordInput = document.getElementById('passwordInput');
+    const btnLogin = document.getElementById('btnLogin');
+    const loginError = document.getElementById('loginError');
+
+    // Check if already logged in (Session Storage)
+    if (sessionStorage.getItem('isLoggedIn') === 'true') {
+        if (loginOverlay) loginOverlay.style.display = 'none';
+    }
+
+    function checkLogin() {
+        const password = passwordInput.value;
+        if (password === '1122@@44') {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            if (loginOverlay) loginOverlay.style.display = 'none';
+        } else {
+            loginError.style.display = 'block';
+        }
+    }
+
+    if (btnLogin) {
+        btnLogin.addEventListener('click', checkLogin);
+    }
+
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkLogin();
+            }
+        });
+    }
+
     renderTable();
     dom.btnAdd.addEventListener('click', addRow);
     dom.btnPrint.addEventListener('click', handlePrint);

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- ExcelJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
     <!-- FileSaver.js -->
@@ -25,13 +25,38 @@
     <!-- SheetJS for Receipt Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        .app-view { display: none; }
-        .app-view.active { display: block;animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .app-view {
+            display: none;
+        }
+
+        .app-view.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-box">
+            <h2 style="color: #EE0033; margin-bottom: 20px;">ĐĂNG NHẬP HỆ THỐNG</h2>
+            <input type="password" id="passwordInput" placeholder="Nhập mật khẩu..." />
+            <div id="loginError" style="color: red; margin-top: 10px; display: none;">Mật khẩu không đúng!</div>
+            <button id="btnLogin" class="btn-primary" style="width: 100%; margin-top: 20px;">ĐĂNG NHẬP</button>
+        </div>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar / Settings Panel -->
         <aside class="sidebar">
@@ -41,8 +66,12 @@
 
             <!-- Navigation -->
             <div class="nav-menu" style="margin-bottom: 20px;">
-                <button id="nav-receipt" class="nav-btn active" style="width:100%; text-align:left; padding:10px; margin-bottom:5px; background:#e63946; color:white; border:none; cursor:pointer; border-radius: 4px; font-weight: 500;">🧾 In Phiếu Thu</button>
-                <button id="nav-excel" class="nav-btn" style="width:100%; text-align:left; padding:10px; background:transparent; color:#333; border:none; cursor:pointer; border-radius: 4px; font-weight: 500;">📊 Công Cụ Excel</button>
+                <button id="nav-receipt" class="nav-btn active"
+                    style="width:100%; text-align:left; padding:10px; margin-bottom:5px; background:#e63946; color:white; border:none; cursor:pointer; border-radius: 4px; font-weight: 500;">🧾
+                    In Phiếu Thu</button>
+                <button id="nav-excel" class="nav-btn"
+                    style="width:100%; text-align:left; padding:10px; background:transparent; color:#333; border:none; cursor:pointer; border-radius: 4px; font-weight: 500;">📊
+                    Công Cụ Excel</button>
             </div>
 
             <!-- Receipt Settings (Visible only in Receipt View ideally, but keeping in sidebar is fine) -->
@@ -56,7 +85,7 @@
 
                 <label>Đơn vị thu:</label>
                 <input type="text" id="unitName" value="VIETTEL LÂM ĐỒNG - VIETTEL DI LINH">
-                
+
                 <h3 style="margin-top:15px">Thông Tin Kỳ Cước</h3>
                 <label>Tháng/Năm:</label>
                 <input type="month" id="billingMonth" value="2026-01">
@@ -76,16 +105,18 @@
 
         <!-- Main Content Area -->
         <main class="main-content">
-            
+
             <!-- VIEW 1: RECEIPT PRINTING -->
             <div id="view-receipt" class="app-view active">
                 <header>
                     <h1>Danh Sách Khách Hàng</h1>
                     <div class="header-actions">
                         <input type="file" id="fileInput" accept=".xlsx, .xls" style="display:none;" />
-                        <button id="btnDownloadSample" class="btn-secondary" style="margin-right: 5px; font-size: 13px;">⬇️
+                        <button id="btnDownloadSample" class="btn-secondary"
+                            style="margin-right: 5px; font-size: 13px;">⬇️
                             Tải file mẫu</button>
-                        <button id="btnImport" class="btn-secondary" style="margin-right: 10px;">📂 Nhập từ Excel</button>
+                        <button id="btnImport" class="btn-secondary" style="margin-right: 10px;">📂 Nhập từ
+                            Excel</button>
                         <button id="btnAddRow" class="btn-add">+ Thêm Khách Hàng</button>
                     </div>
                 </header>
@@ -114,18 +145,20 @@
             <div id="view-excel" class="app-view">
                 <div class="tw-max-w-4xl tw-mx-auto tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-6">
                     <h1 class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mb-6 tw-flex tw-items-center tw-gap-2">
-                        <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                             </path>
                         </svg>
                         Lọc Excel & Giữ Định Dạng
                     </h1>
-            
+
                     <!-- File Input -->
                     <div class="tw-mb-6 tw-grid tw-grid-cols-12 tw-gap-4 tw-items-center">
                         <label class="tw-col-span-2 tw-text-gray-700 tw-font-medium">File nguồn (.xlsx):</label>
-                        <div class="tw-col-span-8 tw-flex tw-items-center tw-border tw-rounded tw-px-3 tw-py-2 tw-bg-gray-50">
+                        <div
+                            class="tw-col-span-8 tw-flex tw-items-center tw-border tw-rounded tw-px-3 tw-py-2 tw-bg-gray-50">
                             <input type="file" id="et-inputFile" accept=".xlsx, .xls"
                                 class="tw-w-full tw-text-sm tw-text-gray-500 file:tw-mr-4 file:tw-py-2 file:tw-px-4 file:tw-rounded-full file:tw-border-0 file:tw-text-sm file:tw-font-semibold file:tw-bg-blue-50 file:tw-text-blue-700 hover:file:tw-bg-blue-100">
                         </div>
@@ -133,15 +166,18 @@
                             <span id="et-fileStatus" class="tw-text-xs tw-text-gray-400">Chưa chọn file</span>
                         </div>
                     </div>
-            
+
                     <!-- Filter Section -->
                     <div class="tw-mb-6 tw-border tw-rounded-lg tw-overflow-hidden">
-                        <div class="tw-bg-gray-100 tw-px-4 tw-py-2 tw-border-b tw-flex tw-justify-between tw-items-center">
+                        <div
+                            class="tw-bg-gray-100 tw-px-4 tw-py-2 tw-border-b tw-flex tw-justify-between tw-items-center">
                             <h3 class="tw-font-semibold tw-text-gray-700">Bộ lọc (AND giữa cột, OR trong mỗi cột)</h3>
-                            <button id="et-addFilterRow" class="tw-text-blue-600 tw-text-sm hover:tw-underline">+ Thêm dòng lọc</button>
+                            <button id="et-addFilterRow" class="tw-text-blue-600 tw-text-sm hover:tw-underline">+ Thêm
+                                dòng lọc</button>
                         </div>
                         <div class="tw-p-4 tw-bg-white" id="et-filterContainer">
-                            <div class="tw-grid tw-grid-cols-12 tw-gap-4 tw-mb-2 tw-font-medium tw-text-sm tw-text-gray-500">
+                            <div
+                                class="tw-grid tw-grid-cols-12 tw-gap-4 tw-mb-2 tw-font-medium tw-text-sm tw-text-gray-500">
                                 <div class="tw-col-span-4">Tên cột (Header chính xác)</div>
                                 <div class="tw-col-span-8">Giá trị (cách nhau bằng dấu phẩy)</div>
                             </div>
@@ -149,26 +185,28 @@
                             <div class="tw-text-xs tw-text-gray-400 tw-mb-4 tw-italic">
                                 Ví dụ: Cột "Mã CTV" lọc giá trị "CTV01, CTV02". (Không phân biệt hoa thường)
                             </div>
-            
+
                             <!-- Filter Rows generated by JS -->
                             <div id="et-filterRows"></div>
                         </div>
                     </div>
-            
+
                     <!-- Output Options -->
                     <div class="tw-mb-6 tw-bg-gray-50 tw-p-4 tw-rounded-lg">
                         <div class="tw-flex tw-items-center tw-gap-6 tw-mb-4">
                             <span class="tw-font-medium tw-text-gray-700">Chế độ xuất:</span>
                             <label class="tw-inline-flex tw-items-center tw-cursor-pointer">
-                                <input type="radio" name="et-outputMode" value="merge" class="tw-form-radio tw-text-blue-600" checked>
+                                <input type="radio" name="et-outputMode" value="merge"
+                                    class="tw-form-radio tw-text-blue-600" checked>
                                 <span class="tw-ml-2">1) Gộp tất cả vào 1 file</span>
                             </label>
                             <label class="tw-inline-flex tw-items-center tw-cursor-pointer">
-                                <input type="radio" name="et-outputMode" value="auto" class="tw-form-radio tw-text-blue-600">
+                                <input type="radio" name="et-outputMode" value="auto"
+                                    class="tw-form-radio tw-text-blue-600">
                                 <span class="tw-ml-2">3) Tách TỰ ĐỘNG theo giá trị cột</span>
                             </label>
                         </div>
-            
+
                         <!-- Split Settings (Conditional) -->
                         <div id="et-splitSettings" class="tw-hidden tw-pl-4 tw-border-l-4 tw-border-blue-200 tw-ml-2">
                             <div class="tw-grid tw-grid-cols-12 tw-gap-4 tw-items-center tw-mb-2">
@@ -178,15 +216,16 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <!-- Actions -->
                     <div class="tw-flex tw-justify-center tw-gap-4 tw-mt-6">
                         <button id="et-btnRun"
                             class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-bold tw-py-3 tw-px-8 tw-rounded tw-shadow-lg tw-transform tw-transition hover:tw-scale-105 tw-flex tw-items-center">
                             <span id="et-loadingSpinner" class="tw-hidden tw-mr-2">
-                                <svg class="tw-animate-spin tw-h-5 tw-w-5 tw-text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <circle class="tw-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                                <svg class="tw-animate-spin tw-h-5 tw-w-5 tw-text-white"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="tw-opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
                                     </circle>
                                     <path class="tw-opacity-75" fill="currentColor"
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
@@ -196,9 +235,10 @@
                             Chạy Xử Lý
                         </button>
                     </div>
-            
-                    <div id="et-statusMessage" class="tw-mt-4 tw-text-center tw-text-sm tw-font-medium tw-text-gray-600 tw-min-h-[20px]"></div>
-            
+
+                    <div id="et-statusMessage"
+                        class="tw-mt-4 tw-text-center tw-text-sm tw-font-medium tw-text-gray-600 tw-min-h-[20px]"></div>
+
                 </div>
             </div>
         </main>
