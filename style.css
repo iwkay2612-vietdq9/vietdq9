@@ -227,7 +227,7 @@ input.cell-input:focus {
     }
 
     .app-container {
-        display: none;
+        display: none !important;
     }
 
     #printArea {

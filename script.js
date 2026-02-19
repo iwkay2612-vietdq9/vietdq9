@@ -35,7 +35,7 @@ function init() {
     // Check if already logged in (Session Storage)
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         if (loginOverlay) loginOverlay.style.display = 'none';
-        if (appContainer) appContainer.style.setProperty('display', 'flex', 'important');
+        if (appContainer) appContainer.style.display = 'flex';
     }
 
     function checkLogin() {
@@ -43,7 +43,7 @@ function init() {
         if (password === '1122@@44') {
             sessionStorage.setItem('isLoggedIn', 'true');
             if (loginOverlay) loginOverlay.style.display = 'none';
-            if (appContainer) appContainer.style.setProperty('display', 'flex', 'important');
+            if (appContainer) appContainer.style.display = 'flex';
         } else {
             loginError.style.display = 'block';
         }
