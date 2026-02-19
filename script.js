@@ -82,36 +82,65 @@ function init() {
     // Navigation Logic
     const navReceipt = document.getElementById('nav-receipt');
     const navExcel = document.getElementById('nav-excel');
+    const navPhoto = document.getElementById('nav-photo'); // New
+
     const viewReceipt = document.getElementById('view-receipt');
     const viewExcel = document.getElementById('view-excel');
+    const viewPhoto = document.getElementById('view-photo'); // New
+
     const sidebarReceiptSettings = document.getElementById('sidebar-receipt-settings');
     const sidebarReceiptActions = document.getElementById('sidebar-receipt-actions');
 
-    if (navReceipt && navExcel) {
+    function resetButtonStyles() {
+        [navReceipt, navExcel, navPhoto].forEach(btn => {
+            if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = '#333';
+            }
+        });
+    }
+
+    function hideAllViews() {
+        [viewReceipt, viewExcel, viewPhoto].forEach(view => {
+            if (view) view.classList.remove('active');
+        });
+        if (sidebarReceiptSettings) sidebarReceiptSettings.style.display = 'none';
+        if (sidebarReceiptActions) sidebarReceiptActions.style.display = 'none';
+    }
+
+    if (navReceipt) {
         navReceipt.addEventListener('click', () => {
+            hideAllViews();
             viewReceipt.classList.add('active');
-            viewExcel.classList.remove('active');
 
             if (sidebarReceiptSettings) sidebarReceiptSettings.style.display = 'block';
             if (sidebarReceiptActions) sidebarReceiptActions.style.display = 'flex';
 
+            resetButtonStyles();
             navReceipt.style.background = '#e63946';
             navReceipt.style.color = 'white';
-            navExcel.style.background = 'transparent';
-            navExcel.style.color = '#333';
         });
+    }
 
+    if (navExcel) {
         navExcel.addEventListener('click', () => {
+            hideAllViews();
             viewExcel.classList.add('active');
-            viewReceipt.classList.remove('active');
 
-            if (sidebarReceiptSettings) sidebarReceiptSettings.style.display = 'none';
-            if (sidebarReceiptActions) sidebarReceiptActions.style.display = 'none';
-
+            resetButtonStyles();
             navExcel.style.background = '#e63946';
             navExcel.style.color = 'white';
-            navReceipt.style.background = 'transparent';
-            navReceipt.style.color = '#333';
+        });
+    }
+
+    if (navPhoto) {
+        navPhoto.addEventListener('click', () => {
+            hideAllViews();
+            viewPhoto.classList.add('active');
+
+            resetButtonStyles();
+            navPhoto.style.background = '#e63946';
+            navPhoto.style.color = 'white';
         });
     }
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viettel Photo Stamping</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Oswald:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="controls">
+            <h1>Viettel Photo Stamping</h1>
+
+            <div class="form-group">
+                <label for="imageInput">Chọn ảnh (Upload Image)</label>
+                <input type="file" id="imageInput" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="logoInput">Chọn Logo (Upload Logo)</label>
+                <input type="file" id="logoInput" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="nameInput">Tên (Name)</label>
+                <input type="text" id="nameInput" value="VIETTEL DI LINH 3">
+            </div>
+
+            <div class="form-group row">
+                <div>
+                    <label for="dateInput">Ngày (Date)</label>
+                    <input type="date" id="dateInput">
+                </div>
+                <div>
+                    <label for="timeInput">Giờ (Time)</label>
+                    <input type="time" id="timeInput">
+                </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="useCurrentTime" checked>
+                <label for="useCurrentTime">Sử dụng ngày giờ hiện tại (Use Current Time)</label>
+            </div>
+
+            <div class="form-group">
+                <label for="coordsInput">Tọa độ (Coordinates)</label>
+                <div class="input-with-btn">
+                    <input type="text" id="coordsInput" value="11.539336, 107.944720">
+                    <button id="getLocationBtn" title="Lấy tọa độ hiện tại">📍</button>
+                    <button id="openMapBtn" title="Chọn trên bản đồ">🗺️</button>
+                </div>
+            </div>
+
+            <button id="downloadBtn" class="primary-btn">Tải ảnh về (Download)</button>
+        </div>
+
+        <div class="preview-area">
+            <div id="captureTarget" class="canvas-container">
+                <img id="previewImage" src="" alt="Preview" style="display: none;">
+                <div id="overlay" class="overlay" style="display: none;">
+
+                    <div class="watermark-logo">
+                        <img src="logo-viettel.png" alt="Viettel Logo" id="logoImage">
+                    </div>
+
+                    <div class="info-group">
+                        <div class="name-text" id="displayName">VIETTEL DI LINH 3</div>
+                        <div class="time-group">
+                            <span id="displayTime" class="time-large">14:35</span>
+                            <div class="date-small-group">
+                                <span id="displayDate">10/02/2026</span>
+                                <span id="displayDay">th3</span>
+                            </div>
+                        </div>
+                        <div class="coords-text" id="displayCoords">Tọa độ: 11.539336, 107.944720</div>
+                    </div>
+                </div>
+                <div id="placeholderText" class="placeholder">Vui lòng chọn ảnh để bắt đầu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Chọn tọa độ trên bản đồ</h2>
+            <div id="map"></div>
+            <button id="confirmCoordsBtn" class="primary-btn" style="margin-top: 10px; width: 100%;">Sử dụng tọa độ
+                này</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
