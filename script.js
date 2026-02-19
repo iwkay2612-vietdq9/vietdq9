@@ -30,10 +30,12 @@ function init() {
     const passwordInput = document.getElementById('passwordInput');
     const btnLogin = document.getElementById('btnLogin');
     const loginError = document.getElementById('loginError');
+    const appContainer = document.querySelector('.app-container');
 
     // Check if already logged in (Session Storage)
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         if (loginOverlay) loginOverlay.style.display = 'none';
+        if (appContainer) appContainer.style.setProperty('display', 'flex', 'important');
     }
 
     function checkLogin() {
@@ -41,6 +43,7 @@ function init() {
         if (password === '1122@@44') {
             sessionStorage.setItem('isLoggedIn', 'true');
             if (loginOverlay) loginOverlay.style.display = 'none';
+            if (appContainer) appContainer.style.setProperty('display', 'flex', 'important');
         } else {
             loginError.style.display = 'block';
         }
